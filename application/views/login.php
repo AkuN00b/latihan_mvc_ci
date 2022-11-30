@@ -13,6 +13,16 @@
                 <div class="col-lg-12 col-xlg-12 col-md-12">
                     <div class="card">
                         <div class="card-block">
+                            <ul>
+                                <?php if ($this->session->flashdata('message')) : ?>
+                                    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                                        <?= $this->session->flashdata('message'); ?>
+                                        <button type="button" class="close" data-bs-dismiss="alert" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+                                <?php endif; ?>
+                            </ul>
                             <form class="form-horizontal form-material" action="<?php echo site_url('login/ceklogin') ?>" method="POST" autocomplete="off">
                                 <div class="form-group">
                                     <label class="col-md-12">Username</label>

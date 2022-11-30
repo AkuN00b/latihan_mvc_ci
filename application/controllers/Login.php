@@ -11,7 +11,11 @@ class Login extends CI_Controller {
 
 	public function index()
 	{
-		$this->load->view('login');
+		if ($this->session->userdata('logged_in')) {
+	      	redirect('dashboard');
+	    } else {
+	    	$this->load->view('login');
+	    }
 	}
 
 	public function ceklogin() 

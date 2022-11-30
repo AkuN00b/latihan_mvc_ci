@@ -48,9 +48,17 @@
                                     <div class="form-group">
                                         <label class="col-md-12">Password</label>
                                         <div class="col-md-12">
-                                            <input type="password" name="password" required="" class="form-control form-control-line">
+                                            <input type="password" id="password" onkeyup="validate()" name="password" required="" class="form-control form-control-line">
                                         </div>
                                     </div>
+                                    <div class="form-group">
+                                        <label class="col-md-12">Password Confirmation</label>
+                                        <div class="col-md-12">
+                                            <input type="password" id="passwordval" onkeyup="validate()" name="passwordval" required="" class="form-control form-control-line passwordval">
+                                        </div>
+                                    </div>
+                                    <div class="alert" style="display:none" id="alert" role="alert"></div>
+
                                     <div class="form-group">
                                         <label class="col-sm-12">Role</label>
                                         <div class="col-sm-12">
@@ -75,7 +83,7 @@
                                     </div>
                                     <div class="form-group">
                                         <div class="col-sm-12">
-                                            <button type="submit" class="btn btn-primary">Save Changes</button>
+                                            <button type="submit" id="btn-save" class="btn btn-primary">Save Changes</button>
                                         </div>
                                     </div>
                                 </form>
@@ -108,6 +116,38 @@
 
 <?php
 $data = ob_get_clean();
+?>
+
+<script>
+    function validate() {
+    var password = document.getElementById("password").value;
+    var passwordval = document.getElementById("passwordval").value;
+    const btnsave = document.getElementById("btn-save");
+    const btnupdate = document.getElementById("btn-update");
+    const alert = document.getElementById("alert");
+    if (password != passwordval) {
+
+      alert.classList.add("alert-danger");
+      alert.classList.remove("alert-success");
+      alert.innerHTML = "Kata sandi tidak sesuai!";
+      btnsave.setAttribute("disabled", "disabled");
+      btnupdate.setAttribute("disabled", "disabled");
+      alert.style.display = "block";
+    } else {
+        alert.style.display = "block";
+      alert.classList.add("alert-success");
+      alert.classList.remove("alert-danger");
+      //alert.style.display = "none";
+      alert.innerHTML = "Kata sandi sesuai!";
+      btnsave.removeAttribute("disabled");
+      btnupdate.removeAttribute("disabled");
+    }
+    return true;
+  }
+</script>
+
+<?php
+$script = ob_get_clean();
 include('master_page.php');
 ob_flush();
 ?>

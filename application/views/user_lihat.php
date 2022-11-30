@@ -56,7 +56,7 @@
                                                     <td><?php echo $u->telepon ?></td>
                                                     <td>
                                                         <a href="<?php echo site_url('User_lihat/edit/'.$u->username); ?>" class="btn btn-warning">Edit</a>
-                                                        <a href="<?php echo site_url('User_lihat/hapus/'.$u->username); ?>" class="btn btn-danger">Hapus</a>
+                                                        <a href="<?php echo site_url('User_lihat/hapus/'.$u->username); ?>" class="btn btn-danger alert-notif">Hapus</a>
                                                     </td>
                                                 </tr>
                                             <?php } ?>
@@ -92,3 +92,38 @@ $data = ob_get_clean();
 include('master_page.php');
 ob_flush();
 ?>
+
+<?php if(@$_SESSION['sukses']){ ?>
+    <script>
+        Swal.fire({            
+            icon: 'success',                   
+            title: 'Sukses',    
+            text: 'data berhasil dihapus',                        
+            timer: 3000,                                
+            showConfirmButton: false
+        })
+    </script>
+    
+<?php unset($_SESSION['sukses']); } ?>
+
+<script>
+    $('.alert-notif').on('click',function(){
+        var getLink = $(this).attr('href');
+        Swal.fire({
+            title: "Yakin hapus data?",            
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#d33',
+            confirmButtonText: 'Ya',
+            cancelButtonColor: '#3085d6',
+            cancelButtonText: "Batal"
+        
+        }).then(result => {
+            if(result.isConfirmed){
+                window.location.href = getLink
+            }
+        })
+
+        return false;
+    });
+</script> 

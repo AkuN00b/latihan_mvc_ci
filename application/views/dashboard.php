@@ -33,22 +33,48 @@
                             <div class="card-block">
                                 <div class="row">
                                     <div class="col-12">
-                                        <div class="d-flex flex-wrap">
-                                            <div>
-                                                <h3 class="card-title">Sales Overview</h3>
-                                                <h6 class="card-subtitle">Ample Admin Vs Pixel Admin</h6> </div>
+                            <h4 class="card-title">Data Admin dan Dosen</h4>
+
                                             <div class="ml-auto">
-                                                <ul class="list-inline">
-                                                    <li>
-                                                        <h6 class="text-muted text-success"><i class="fa fa-circle font-10 m-r-10 "></i>Ample</h6> </li>
-                                                    <li>
-                                                        <h6 class="text-muted  text-info"><i class="fa fa-circle font-10 m-r-10"></i>Pixel</h6> </li>
-                                                </ul>
+                                                <div class="table-responsive">
+                                                    <table class="table text-center">
+                                                        <thead>
+                                                            <tr>
+                                                                <th class="text-center">No.</th>
+                                                                <th class="text-center">Nama</th>
+                                                                <th class="text-center">Jumlah</th>
+                                                                <th class="text-center">Persentase (%)</th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                            <?php $i = 0; ?>
+                                                            <?php foreach ($user as $u) { ?>
+                                                                <tr>
+                                                                    <td>
+                                                                        <?php $i++; ?>
+                                                                        <?php echo $i ?>
+                                                                    </td>
+                                                                    <td><?php echo $u->role ?></td>
+                                                                    <td><?php echo $u->hitung ?></td>
+                                                                    <td><?php echo round($u->Counter) ?>%</td>
+                                                                </tr>
+                                                            <?php } ?>
+                                                        </tbody>
+                                                        <tfoot>
+                                                            <tr>
+                                                                <th colspan="2" class="text-center">Total</td>
+                                                                <th class="text-center">
+                                                                    <?php
+                                                                        $total = $totalAdmin + $totalDosen;
+                                                                        echo $total;
+                                                                    ?>
+                                                                </th>
+                                                                <th class="text-center">100%</th>
+                                                            </tr>
+                                                        </tfoot>
+                                                    </table>
+                                                </div>
                                             </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-12">
-                                        <div class="amp-pxl" style="height: 360px;"></div>
                                     </div>
                                 </div>
                             </div>
@@ -67,11 +93,9 @@
                             <div class="card-block text-center ">
                                 <ul class="list-inline m-b-0">
                                     <li>
-                                        <h6 class="text-muted text-info"><i class="fa fa-circle font-10 m-r-10 "></i>Mobile</h6> </li>
+                                        <h6 class="text-muted text-info"><i class="fa fa-circle font-10 m-r-10 "></i>Admin</h6> </li>
                                     <li>
-                                        <h6 class="text-muted  text-primary"><i class="fa fa-circle font-10 m-r-10"></i>Desktop</h6> </li>
-                                    <li>
-                                        <h6 class="text-muted  text-success"><i class="fa fa-circle font-10 m-r-10"></i>Tablet</h6> </li>
+                                        <h6 class="text-muted  text-primary"><i class="fa fa-circle font-10 m-r-10"></i>Dosen</h6> </li>
                                 </ul>
                             </div>
                         </div>
@@ -327,6 +351,53 @@
         <!-- ============================================================== -->
 <?php
 $data = ob_get_clean();
+?>
+
+<?php ob_start();?>
+
+<script>
+$(function() {
+  var chart = c3.generate({
+    bindto: "#visitor",
+    data: {
+      columns: [
+        ["Dosen", <?php echo $totalDosen  ?>],
+        ["Admin", <?php echo $totalAdmin  ?>],
+      ],
+
+      type: "donut",
+      onclick: function(d, i) {
+        console.log("onclick", d, i);
+      },
+      onmouseover: function(d, i) {
+        console.log("onmouseover", d, i);
+      },
+      onmouseout: function(d, i) {
+        console.log("onmouseout", d, i);
+      },
+    },
+    donut: {
+      label: {
+        show: false,
+      },
+      title: "Data Account",
+      width: 20,
+    },
+
+    legend: {
+      hide: true,
+      //or hide: 'data1'
+      //or hide: ['data1', 'data2']
+    },
+    color: {
+      pattern: ["#26c6da", "#745af2"],
+    },
+  });
+});
+</script>
+
+<?php
+$script = ob_get_clean();
 include('master_page.php');
 ob_flush();
 ?>

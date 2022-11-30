@@ -8,6 +8,12 @@ class Materi_security_model extends CI_Model
 		return $this->db->get($this->_table)->result();
 	}
 
+	public function getRoleCount() {
+		$query = $this->db->query("(SELECT role, count(role) AS hitung, count(*) * 100 / (SELECT count(*) FROM users) AS Counter FROM users GROUP BY role)");
+
+		return $query->result();
+	}
+
 	public function get_username($username) {
 	    $query = $this->db->get_where($this->_table, array('username' => $username));
 	    return $query;
@@ -49,6 +55,18 @@ class Materi_security_model extends CI_Model
 	public function delete($username) {
 	    $this->db->where('username', $username);
 	    $this->db->delete($this->_table);
+	}
+
+	public function getAdmin() {
+		$query = $this->db->query("SELECT * FROM users WHERE role='Admin'");
+
+		return $query->num_rows();
+	}
+
+	public function getDosen() {
+		$query = $this->db->query("SELECT * FROM users WHERE role='Dosen'");
+
+		return $query->num_rows();
 	}
 }
 
